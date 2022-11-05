@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.movie.mapper.MovieMapper">
+
+<!-- 게시판 목록 -->
+<select id="getList" resultType="org.movie.domain.MovieVO">
+
+	<![CDATA[
+		select * from movie order by code desc
+	]]>
+
+</select>
+
+<select id="selectProductByCode" resultType="org.movie.domain.MovieVO">
+ 
+ 	select * from movie where code = #{code} 
+</select>
+
+<insert id="insertMovie">
+	<selectKey keyProperty="code" order="BEFORE" resultType="Long">
+		select movie_seq.nextval from dual
+	</selectKey>
+insert into movie(code, title, price, director, actor,synopsis)
+values(#{code}, #{title}, #{price}, #{director}, #{actor}, #{synopsis})
+
+</insert>
+
+<delete id = "deleteMovie">
+	delete from movie where code = #{code}
+</delete>
+
+<update id = "modify">
+	update movie
+	set title = #{title},
+		price = #{price},
+		director = #{director},
+		actor = #{actor},
+		synopsis = #{synopsis}
+	where code=#{code}
+		
+</update>
+</mapper>
